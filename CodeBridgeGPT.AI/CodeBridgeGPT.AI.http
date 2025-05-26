@@ -1,0 +1,6 @@
+@CodeBridgeGPT.AI_HostAddress = http://localhost:5089
+
+GET {{CodeBridgeGPT.AI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
