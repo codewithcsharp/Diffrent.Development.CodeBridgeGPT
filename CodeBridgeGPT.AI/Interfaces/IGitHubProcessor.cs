@@ -4,8 +4,8 @@ namespace CodeBridgeGPT.AI.Interfaces
 {
     public interface IGitHubProcessor
     {
-        Task<long?> GenerateInstallationIdAsync(string owner);
+        Task<string> CodeFilesPushGitHubAsync(long installationId, string repository, string loginuser, GitHubProcessModel files);
         Task<string> GenerateInstallationTokenAsync(long installationId);
-        Task<string> PushFilesToGitHubAsync(long installationId, string repoName, string owner, GitHubProcessModel files);
+        Task<long?> GenerateInstallationIdAsync(string owner);
     }
 }

@@ -7,12 +7,12 @@ using System.Text;
 
 namespace CodeBridgeGPT.AI.Services
 {
-    public class KernelService : IKernelService
+    public class CodeBridgeGPTService : IKernelService
     {
         private readonly Kernel _kernel;
         private readonly IChatCompletionService _chatService;
 
-        public KernelService(IConfiguration configuration)
+        public CodeBridgeGPTService(IConfiguration configuration)
         {
             var apiKey = configuration["KernelSettings:ApiKey"];
             var model = configuration["KernelSettings:Model"] ?? "gpt-3.5-turbo";

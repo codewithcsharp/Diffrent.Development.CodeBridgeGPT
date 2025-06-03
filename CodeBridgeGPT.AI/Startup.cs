@@ -8,11 +8,14 @@ namespace CodeBridgeGPT.AI
         public void ConfigureServices(IServiceCollection services)
         {
             // Add services to the container.
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddSingleton<IKernelService, KernelService>();
+            services.AddHttpClient();
+            services.AddSingleton<IKernelService, CodeBridgeGPTService>();
             services.AddSingleton<IGitHubProcessor, GitHubProcessorService>();
+            services.AddSingleton<IGitCommitProcessor, GitCommitProcessor>();
+            services.AddSingleton<ICreateRepository, CreateRepositoryService>();
         }
 
 
