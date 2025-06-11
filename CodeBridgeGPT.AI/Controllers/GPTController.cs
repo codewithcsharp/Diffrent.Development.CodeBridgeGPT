@@ -24,10 +24,16 @@ namespace CodeBridgeGPT.AI.Controllers
         }
 
         [HttpPost("codebridgegpt")]
-        public async Task<IActionResult> GenerateCode([FromBody] AIRequestModel request)
+        public async Task<IActionResult> GenerateCode([FromBody] CodeBridgeGptRequestModel request)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    List<string> errors = ModelState.Where(ms => ms.Value?.Errors.Count > 0).SelectMany(ms => ms.Value!.Errors).Select(e => e.ErrorMessage).ToList();
+
+                    return BadRequest(new { Message = "Invalid request", Errors = errors });
+                }
                 var result = await _kernelService.GenerateCodeFromPromptAsync(request);
                 return Ok(result);
             }
@@ -63,23 +69,38 @@ namespace CodeBridgeGPT.AI.Controllers
             }
         }
 
-        [HttpPut("commit-changes")]
+        [HttpPut("commits")]
         public async Task<IActionResult> ProcessGitCommitAsync([FromBody] GitHubContentUpdateRequest request)
         {
             try
             {
-                if (request == null || string.IsNullOrEmpty(request.Owner) || string.IsNullOrEmpty(request.Repo))
-                {
-                    return BadRequest("Invalid request data.");
-                }
-                var result = await _gitCommitProcessor.CreateOrUpdateFileAsync(request);
+                // Check for Authorization header
+                if (!Request.Headers.TryGetValue("Authorization", out var authHeader) || string.IsNullOrWhiteSpace(authHeader))
+                    return Unauthorized("Authorization header is missing");
+
+                var token = authHeader.ToString().Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase);
+
+                // Optional: Validate token format or use it in downstream service (_gitCommitProcessor)
+
+                // Validate request body
+                if (request == null)
+                    return BadRequest("Request body is missing.");
+
+                if (string.IsNullOrWhiteSpace(request.Owner) || string.IsNullOrWhiteSpace(request.Repo))
+                    return BadRequest("Owner and repository name must be provided.");
+
+                // Process commit
+                var result = await _gitCommitProcessor.CreateOrUpdateFileAsync(request, token);
+
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error: {ex.Message}");
+                // Optional: Log exception here
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpPost("createrepo")]
         public async Task<IActionResult> CreateRepo(string orgnisation, [FromBody] RepositoryModel request)

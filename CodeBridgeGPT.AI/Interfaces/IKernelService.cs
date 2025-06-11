@@ -5,7 +5,7 @@ namespace CodeBridgeGPT.AI.Interfaces
 {
     public interface IKernelService
     {
-        Task<AIResponseModel> GenerateCodeFromPromptAsync(AIRequestModel request);
+        Task<CodeBridgeGptResponseModel> GenerateCodeFromPromptAsync(CodeBridgeGptRequestModel request);
         Kernel GetKernel();
     }
 }
