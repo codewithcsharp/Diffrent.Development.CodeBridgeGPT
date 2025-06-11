@@ -1,5 +1,6 @@
 ﻿using CodeBridgeGPT.AI.Interfaces;
 using CodeBridgeGPT.AI.Services;
+using CodeBridgeGPT.AI.Validation;
 
 namespace CodeBridgeGPT.AI
 {
@@ -16,6 +17,8 @@ namespace CodeBridgeGPT.AI
             services.AddSingleton<IGitHubProcessor, GitHubProcessorService>();
             services.AddSingleton<IGitCommitProcessor, GitCommitProcessor>();
             services.AddSingleton<ICreateRepository, CreateRepositoryService>();
+            services.AddTransient<IModelInspectorService, ModelInspectorService>();
+            services.AddTransient<IPromptValidator, TaskExecutionPromptModelReferenceValidator>();
         }
 
 
@@ -40,7 +43,12 @@ namespace CodeBridgeGPT.AI
             });
             // Enable Swagger
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CodeBridgeGPT API V1"));
+            app.UseSwaggerUI(options =>
+            {
+                options.InjectStylesheet("/swaggerstyle.css");
+                options.InjectJavascript("/swaggerjavascript.js");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "CodeBridgeGPT API V1");
+            });
         }
     }
 }

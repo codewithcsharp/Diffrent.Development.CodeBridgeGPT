@@ -1,0 +1,68 @@
+﻿/* ✅ Global background override */
+body, .swagger-ui, .swagger-ui .wrapper {
+    background-color: #c9ffc9 !important; /* Mustard green */
+}
+
+    /* ✅ Top bar styling */
+    .swagger-ui .topbar {
+        background-color: #0b323a !important;
+    }
+
+        .swagger-ui .topbar .topbar-wrapper span {
+            color: #ecf0f1;
+        }
+
+    /* ✅ Scheme selector dropdown */
+    .swagger-ui select {
+        background-color: #34495e;
+        color: #ecf0f1;
+    }
+
+    /* ✅ Buttons */
+    .swagger-ui .btn {
+        background-color: #0b323a;
+        color: white;
+    }
+
+        .swagger-ui .btn:hover {
+            background-color: #2e575f;
+        }
+
+    /* ✅ Model box container with light sky blue background */
+    .swagger-ui .model-box {
+        background-color: #e6f7ff !important; /* Light blue sky */
+        border: 1px solid #b3d8f0;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    /* ✅ Model title on the left */
+    .swagger-ui .model-title {
+        display: inline-block;
+        min-width: 250px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #0b323a;
+        margin-right: 20px;
+        vertical-align: top;
+    }
+
+    /* ✅ Model properties on the right */
+    .swagger-ui .model-box .model {
+        flex-grow: 1;
+        padding-left: 20px;
+        margin-left: 10px;
+        border-left: 2px dashed #b3d8f0;
+    }
+
+    /* ✅ Required field marker */
+    .swagger-ui .model-box .prop.required .prop-name::after {
+        content: " *";
+        color: red;
+        font-weight: bold;
+    }

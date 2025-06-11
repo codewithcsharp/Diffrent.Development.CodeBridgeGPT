@@ -4,6 +4,6 @@ namespace CodeBridgeGPT.AI.Interfaces
 {
     public interface IGitCommitProcessor
     {
-        Task<string> CreateOrUpdateFileAsync(GitHubContentUpdateRequest request);
+        Task<string> CreateOrUpdateFileAsync(GitHubContentUpdateRequest request, string token);
     }
 }
